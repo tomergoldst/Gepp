@@ -1,0 +1,12 @@
+<resources>
+    <!-- REPLACE GEO API KEY WITH YOUR KEY-->
+    <string name="geo_api_key" translatable="false">YOUR_GEO_API_KEY_HERE</string>
+
+    <string name="app_name">Gepp</string>
+    <string name="app_short_desc">Finding places near you</string>
+    <string name="you_are_currently_here">You are currently here</string>
+    <string name="see_on_map">See nearest places on Map</string>
+    <string name="see_on_list">See nearest places on list</string>
+    <string name="let_s_start">Let\'s Start</string>
+    <string name="no_places_were_found">No places were found</string>
+</resources>

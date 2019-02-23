@@ -1,0 +1,29 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Cinematheque",
+      "rating": 4.2
+    },
+    {
+      "id": 2,
+      "name": "Tel Aviv Museum of Art",
+      "rating": 4.1
+    },
+    {
+      "id": 3,
+      "name": "Dizengoff Center",
+      "rating": 4.4
+    },
+    {
+      "id": 4,
+      "name": "Tel-O-Fun Station",
+      "rating": 3.8
+    },
+    {
+      "id": 5,
+      "name": "Catit",
+      "rating": 4.0
+    }
+  ]
+}

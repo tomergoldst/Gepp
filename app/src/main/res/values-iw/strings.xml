@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Gepp</string>
+    <string name="app_short_desc">מוצאים מקומות סביבך</string>
+    <string name="you_are_currently_here">הינך נמצא כאן</string>
+    <string name="see_on_map">הצג על גבי מפה</string>
+    <string name="see_on_list">הצג ברשימה</string>
+    <string name="let_s_start">בוא נתחיל</string>
+    <string name="no_places_were_found">לא נמצאו מקומות בסביבתך</string>
+</resources>
