@@ -10,6 +10,17 @@ Replace the string value of `geo_api_key` with your Google Geo Api key for the a
 <string name="geo_api_key" translatable="false">YOUR_GEO_API_KEY_HERE</string>
 ```
 
+## Tech stack
+* Kotlin
+* Android X
+* Android Architecture Components
+    * ViewModel
+    * LiveData
+* Retrofit
+* Glide
+* Gson
+
+
 ### License
 ```
 Copyright 2019 Tomer Goldstein
