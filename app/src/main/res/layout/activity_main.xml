@@ -50,11 +50,12 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/currentLocationAddressTxv"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textDirection="locale"
                 app:layout_constraintStart_toEndOf="@+id/locationIconImv"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/currentLocationLabelTxv"
                 tools:text="Tel Aviv" />
 

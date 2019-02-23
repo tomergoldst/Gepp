@@ -56,10 +56,14 @@ class MainViewModel(
             val fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication() as Context)
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
-                    val currentLocation = LatLng(location!!.latitude, location.longitude)
-                    mCurrentLocation.postValue(currentLocation)
-                    getLocationAddress(currentLocation)
-                    getNearestPlaces(currentLocation, NEAREST_PLACES_DEFAULT_RADIUS_METERS)
+                    if (location != null) {
+                        val currentLocation = LatLng(location.latitude, location.longitude)
+                        mCurrentLocation.postValue(currentLocation)
+                        getLocationAddress(currentLocation)
+                        getNearestPlaces(currentLocation, NEAREST_PLACES_DEFAULT_RADIUS_METERS)
+                    } else {
+                        mStatus.postValue(Status.NO_LOCATION_SERVICES)
+                    }
                 }
         } else {
             // todo show default location or show message

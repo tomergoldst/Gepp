@@ -236,6 +236,13 @@ class MainActivity : AppCompatActivity(),
                 }
                 snackbar.show()
             }
+            Status.NO_LOCATION_SERVICES -> {
+                val snackbar = Snackbar.make(rootLayout, "Location is disabled", Snackbar.LENGTH_LONG)
+                snackbar.setAction("Enable") {
+                    Toast.makeText(this@MainActivity, "Not implemented yet, Please turn it on", Toast.LENGTH_SHORT).show()
+                }
+                snackbar.show()
+            }
             else -> throw RuntimeException("Unknown status")
         }
     }
