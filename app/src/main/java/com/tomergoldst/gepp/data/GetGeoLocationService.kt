@@ -8,6 +8,9 @@ import retrofit2.http.Query
 interface GetGeoLocationService {
 
     @GET("geocode/json")
-    fun getReverseGeoCoding(@Query("latlng") latlng: String, @Query("key") key: String): Call<ReverseGeoLocationResult>
+    fun getReverseGeoCoding(@Query("latlng") latlng: String,
+                            @Query("language") language: String,
+                            @Query("key") key: String)
+            : Call<ReverseGeoLocationResult>
 
 }

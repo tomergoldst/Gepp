@@ -25,6 +25,7 @@ import com.tomergoldst.gepp.utils.NetworkUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class MainViewModel(
     application: Application,
@@ -89,6 +90,7 @@ class MainViewModel(
         queryParams[Constants.KEY] = mGeoKey
         queryParams[Constants.LOCATION] = "${location.latitude},${location.longitude}"
         queryParams[Constants.RADIUS] = radius.toString()
+        queryParams[Constants.LANGUAGE] = Locale.getDefault().language
 
         // run get nearest places.json async
         getNearestPlacesService.nearestPlaces(queryParams).enqueue(object : Callback<NearestPlacesResult> {
@@ -114,7 +116,9 @@ class MainViewModel(
 
     fun getLocationAddress(location: LatLng) {
         val loc = "${location.latitude},${location.longitude}"
-        getGeoLocationService.getReverseGeoCoding(loc, mGeoKey).enqueue(object : Callback<ReverseGeoLocationResult> {
+        val language = Locale.getDefault().language
+
+        getGeoLocationService.getReverseGeoCoding(loc, mGeoKey, language).enqueue(object : Callback<ReverseGeoLocationResult> {
             override fun onFailure(call: Call<ReverseGeoLocationResult>, t: Throwable) {
                 Log.e(TAG, "getReverseGeoCoding:onFailure", t)
             }
