@@ -118,7 +118,7 @@ class MainViewModel(
         val loc = "${location.latitude},${location.longitude}"
         val language = Locale.getDefault().language
 
-        getGeoLocationService.getReverseGeoCoding(loc, mGeoKey, language).enqueue(object : Callback<ReverseGeoLocationResult> {
+        getGeoLocationService.getReverseGeoCoding(loc, language, mGeoKey).enqueue(object : Callback<ReverseGeoLocationResult> {
             override fun onFailure(call: Call<ReverseGeoLocationResult>, t: Throwable) {
                 Log.e(TAG, "getReverseGeoCoding:onFailure", t)
             }
