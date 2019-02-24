@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity(),
     override fun onMapReady(googleMap: GoogleMap?) {
         mGoogleMap = googleMap ?: return
 
+        // Attach map listeners
         googleMap.apply {
             setOnInfoWindowClickListener(this@MainActivity)
             setOnMarkerClickListener(this@MainActivity)
@@ -160,15 +161,18 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onInfoWindowClick(marker: Marker?) {
-        Toast.makeText(this, "onInfoWindowClick", Toast.LENGTH_SHORT).show()
+        // React to info window clicked
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
+        // React to marker clicked
+
+        // Return false inorder to allow default onMarkerClick behaviour
         return false
     }
 
     override fun onMapClick(latLng: LatLng?) {
-        Toast.makeText(this, "onMapClick", Toast.LENGTH_SHORT).show()
+        // React to map click
     }
 
     private fun initialMapLocation(location: LatLng) {
