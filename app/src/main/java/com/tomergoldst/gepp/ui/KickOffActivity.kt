@@ -15,6 +15,7 @@ import com.tomergoldst.gepp.R
 import com.tomergoldst.gepp.utils.InjectorUtils
 import kotlinx.android.synthetic.main.activity_kickoff.*
 import com.tomergoldst.gepp.model.Status
+import java.lang.RuntimeException
 
 class KickOffActivity : AppCompatActivity() {
 
@@ -71,6 +72,7 @@ class KickOffActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
+            else -> throw RuntimeException("Unknown status")
         }
     }
 }
