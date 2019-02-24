@@ -103,7 +103,6 @@ class MainViewModel(
             }
 
             override fun onResponse(call: Call<NearestPlacesResult>, response: Response<NearestPlacesResult>) {
-                Log.d(TAG, "nearestPlaces:onResponse: ${response.body()}")
                 if (response.isSuccessful) {
                     mPlaces.postValue(response.body()?.results?.toMutableList())
                 } else {
@@ -128,7 +127,6 @@ class MainViewModel(
             }
 
             override fun onResponse(call: Call<ReverseGeoLocationResult>, response: Response<ReverseGeoLocationResult>) {
-                Log.d(TAG, "getReverseGeoCoding:onResponse: ${response.body()}")
                 if (response.isSuccessful) {
                     mCurrentLocationAddress.postValue(response.body()?.results?.get(0)?.formattedAddress)
                 } else {
