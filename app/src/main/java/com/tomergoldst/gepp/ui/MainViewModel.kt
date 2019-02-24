@@ -11,8 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.Task
 import com.tomergoldst.gepp.R
 import com.tomergoldst.gepp.data.Constants
 import com.tomergoldst.gepp.data.GetGeoLocationService
@@ -41,6 +43,7 @@ class MainViewModel(
     }
 
     private var mGeoKey =  getApplication<Application>().getString(R.string.geo_api_key)
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     private var mCurrentLocationAddress: MutableLiveData<String> = MutableLiveData()
     private var mCurrentLocation: MutableLiveData<LatLng> = MutableLiveData()
@@ -53,16 +56,13 @@ class MainViewModel(
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             // Got last known location. In some rare situations this can be null.
-            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication() as Context)
-            fusedLocationClient.lastLocation
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplication() as Context)
+            mFusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
                     if (location != null) {
-                        val currentLocation = LatLng(location.latitude, location.longitude)
-                        mCurrentLocation.postValue(currentLocation)
-                        getLocationAddress(currentLocation)
-                        getNearestPlaces(currentLocation, NEAREST_PLACES_DEFAULT_RADIUS_METERS)
+                        triggerLocationRelatedDataUpdates(location)
                     } else {
-                        mStatus.postValue(Status.NO_LOCATION_SERVICES)
+                        createLocationRequest()
                     }
                 }
         } else {
@@ -70,6 +70,60 @@ class MainViewModel(
         }
 
         checkNetworkConnection()
+    }
+
+    private fun triggerLocationRelatedDataUpdates(location: Location) {
+        val currentLocation = LatLng(location.latitude, location.longitude)
+        mCurrentLocation.postValue(currentLocation)
+        getLocationAddress(currentLocation)
+        getNearestPlaces(currentLocation, NEAREST_PLACES_DEFAULT_RADIUS_METERS)
+    }
+
+    private fun createLocationRequest() {
+        val locationRequest = LocationRequest.create()?.apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        }
+
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest!!)
+        val client: SettingsClient = LocationServices.getSettingsClient(getApplication() as Context)
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+        task.addOnCompleteListener{
+            startLocationUpdates(locationRequest)
+        }
+        task.addOnFailureListener{
+            if (it is ResolvableApiException){
+                mStatus.postValue(Status.NO_LOCATION_SERVICES)
+
+                // todo implement startResolutionForResult flow
+            }
+        }
+    }
+
+    private fun startLocationUpdates(locationRequest: LocationRequest) {
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations){
+                    triggerLocationRelatedDataUpdates(location)
+
+                    // for this sample app we only want to retrieve the current location once
+                    mFusedLocationClient.removeLocationUpdates(this)
+                }
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                getApplication(), Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mFusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                null /* Looper */
+            )
+        }
     }
 
     fun getPlaces(): LiveData<MutableList<Place>> {

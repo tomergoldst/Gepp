@@ -48,6 +48,8 @@ class MainActivity : AppCompatActivity(),
     private lateinit var mModel: MainViewModel
     private lateinit var mGoogleMap: GoogleMap
     private lateinit var mListViewFragment: Fragment
+    private var mCircleRadius: Circle? = null
+    private val mMarkers: MutableMap<LatLng, Marker> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -184,14 +186,16 @@ class MainActivity : AppCompatActivity(),
 
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, MAP_DEFAULT_ZOOM))
         drawSearchRangeCircle(location)
-        showCurrentLocationOnMap(location)
+        showLocationNearestPlacesOnMap(location)
     }
 
     private fun drawSearchRangeCircle(
         centerPoint: LatLng,
         circleRadiusMeters: Int = MainViewModel.NEAREST_PLACES_DEFAULT_RADIUS_METERS
     ) {
-        mGoogleMap.addCircle(
+        mCircleRadius?.remove()
+
+        mCircleRadius = mGoogleMap.addCircle(
             CircleOptions().apply {
                 center(centerPoint)
                 radius(circleRadiusMeters.toDouble())
@@ -199,6 +203,7 @@ class MainActivity : AppCompatActivity(),
                 strokeColor(CIRCLE_STROKE_COLOR_ARGB)
                 fillColor(CIRCLE_FILL_COLOR_ARGB)
             })
+
     }
 
     private fun showPlacesOnMap(places: List<Place>) {
@@ -217,14 +222,25 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun showCurrentLocationOnMap(location: LatLng) {
+    private fun showLocationNearestPlacesOnMap(location: LatLng) {
+        removeAllMarkers()
+
         mGoogleMap.let {
-            mGoogleMap.addMarker(
+            val marker = mGoogleMap.addMarker(
                 MarkerOptions()
                     .position(location)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_pin_you_are_here))
             )
+
+            mMarkers[location] = marker
         }
+    }
+
+    private fun removeAllMarkers(){
+        mMarkers.forEach {
+            it.value.remove()
+        }
+        mMarkers.clear()
     }
 
     private fun showCurrentLocationAddress(currentLocationAddress: String) {
