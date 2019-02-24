@@ -9,4 +9,7 @@
     <string name="see_on_list">See nearest places on list</string>
     <string name="let_s_start">Let\'s Start</string>
     <string name="no_places_were_found">No places were found</string>
+    <string name="error_no_internet_connection">No Internet connection</string>
+    <string name="action_enable">Enable</string>
+    <string name="error_location_is_disabled">Location is disabled</string>
 </resources>

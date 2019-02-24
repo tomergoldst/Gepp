@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.single.BasePermissionListener
+import com.tomergoldst.gepp.R
 import com.tomergoldst.gepp.utils.InjectorUtils
 import kotlinx.android.synthetic.main.activity_kickoff.*
 import com.tomergoldst.gepp.model.Status
@@ -52,8 +53,8 @@ class KickOffActivity : AppCompatActivity() {
     private fun onStatusChanged(status: Status){
         when (status){
             Status.NO_INTERNET_CONNECTION -> {
-                val snackbar = Snackbar.make(rootLayout, "No Internet connection", Snackbar.LENGTH_LONG)
-                snackbar.setAction("Enable") {
+                val snackbar = Snackbar.make(rootLayout, getString(R.string.error_no_internet_connection), Snackbar.LENGTH_LONG)
+                snackbar.setAction(getString(R.string.action_enable)) {
                     Toast.makeText(this, "Not implemented yet, Please turn it on", Toast.LENGTH_SHORT).show()
                 }
                 snackbar.show()

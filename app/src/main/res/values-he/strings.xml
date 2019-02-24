@@ -6,4 +6,7 @@
     <string name="see_on_list">הצג ברשימה</string>
     <string name="let_s_start">בוא נתחיל</string>
     <string name="no_places_were_found">לא נמצאו מקומות בסביבתך</string>
+    <string name="error_no_internet_connection">אינטרנט אינו פעיל</string>
+    <string name="action_enable">הפעל</string>
+    <string name="error_location_is_disabled">מיקום אינו פעיל</string>
 </resources>

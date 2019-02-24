@@ -230,15 +230,15 @@ class MainActivity : AppCompatActivity(),
     private fun onStatusChanged(status: Status){
         when (status){
             Status.NO_INTERNET_CONNECTION -> {
-                val snackbar = Snackbar.make(rootLayout, "No Internet connection", Snackbar.LENGTH_INDEFINITE)
-                snackbar.setAction("Enable") {
+                val snackbar = Snackbar.make(rootLayout, getString(R.string.error_no_internet_connection), Snackbar.LENGTH_INDEFINITE)
+                snackbar.setAction(getString(R.string.action_enable)) {
                     Toast.makeText(this@MainActivity, "Not implemented yet, Please turn it on", Toast.LENGTH_SHORT).show()
                 }
                 snackbar.show()
             }
             Status.NO_LOCATION_SERVICES -> {
-                val snackbar = Snackbar.make(rootLayout, "Location is disabled", Snackbar.LENGTH_LONG)
-                snackbar.setAction("Enable") {
+                val snackbar = Snackbar.make(rootLayout, getString(R.string.error_location_is_disabled), Snackbar.LENGTH_LONG)
+                snackbar.setAction(getString(R.string.action_enable)) {
                     Toast.makeText(this@MainActivity, "Not implemented yet, Please turn it on", Toast.LENGTH_SHORT).show()
                 }
                 snackbar.show()
